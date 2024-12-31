@@ -9,26 +9,15 @@ type Variables = JwtVariables
 
 const app = new Hono()
 
-app.use(
-  "/auth/*",
-  cors({
-    origin: "localhost:8780",
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    maxAge: 600,
-    credentials: true,
-  })
-)
+app.use("/auth/*", cors())
 
 app.use("/api/*", cors())
 app.use(
   "/api2/*",
   cors({
-    origin: "https://basic-auth.simpler-times.workers.dev",
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
+    origin: "https://kagi.vercel.app",
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
     maxAge: 600,
     credentials: true,
   })
