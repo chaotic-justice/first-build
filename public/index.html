@@ -102,7 +102,7 @@
         event.preventDefault();
 
         const getButton = document.getElementById('getButton');
-        await fetch("/api2/abc", {
+        await fetch("/api/v2/protected", {
           method: "GET",
         }).then(async (response) => {
           const dat = await response.json()
