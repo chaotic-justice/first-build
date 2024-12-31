@@ -10,7 +10,7 @@ app.use("/api/v1/*", cors())
 app.use(
   "/api/v2/*",
   cors({
-    origin: "https://mushroom.vercel.app",
+    origin: ["https://mushroom.vercel.app", "http://localhost:3001"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     maxAge: 600,
@@ -22,7 +22,7 @@ app.use(
 app.get("/api/v1/hello", (c) => c.text("Hello from public API!"))
 
 // Protected API routes
-app.get("/api/v2/protected", (c) =>
+app.get("/api/v2/pawn", (c) =>
   c.json({
     msg: "Hello from protected API!",
   })
