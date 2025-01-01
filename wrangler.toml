@@ -15,9 +15,10 @@ JWT_SECRET = "cape-quail-23109W%#@#"
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = "MY_BUCKET"
+bucket_name = "siberia-tea-cup"
+preview_bucket_name = "preview-tea-cup"
 
 # [[d1_databases]]
 # binding = "DB"
