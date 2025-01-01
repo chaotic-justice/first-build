@@ -64,7 +64,9 @@
         </form>
       </div>
       <button id="fetchImages">Fetch Images</button>
+      <button id="fetchPdfs">Fetch Pdfs</button>
       <div id="imageContainer"></div>
+      <div id="pdfContainer"></div>
     </div>
 
     <footer>
@@ -76,6 +78,7 @@
 
     <script>
       document.getElementById("fetchImages").addEventListener("click", fetchImages)
+      document.getElementById("fetchPdfs").addEventListener("click", fetchPdfs)
 
       async function fetchImages() {
         try {
@@ -91,6 +94,19 @@
         }
       }
 
+      async function fetchPdfs() {
+        try {
+          const response = await fetch("/api/fetch-from-r2?kind=pdf")
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+          const res = await response.json()
+          displayPdfs(res)
+        } catch (error) {
+          console.error("Fetch error:", error)
+        }
+      }
+
       function displayImages(images) {
         const container = document.getElementById("imageContainer")
         container.innerHTML = ""
@@ -101,6 +117,17 @@
           img.alt = image.name
           img.style.width = "200px"
           img.style.margin = "10px"
+          container.appendChild(img)
+        })
+      }
+
+      function displayPdfs(pdfs) {
+        const container = document.getElementById("pdfContainer")
+        container.innerHTML = ""
+        pdfs.forEach((pdf) => {
+          const img = document.createElement("p")
+          img.style.margin = "10px"
+          img.innerText = pdf.name
           container.appendChild(img)
         })
       }

@@ -50,19 +50,36 @@ app.get("/pear", (c) => {
 
 app.get("/api/fetch-from-r2", async (c) => {
   const { kind } = c.req.query()
+  if (!kind) {
+    return c.text("empty list")
+  }
+
   try {
     if (kind === "img") {
-      const listResult = await c.env.MY_BUCKET.list()
-      console.log("listResult", listResult)
+      const listResult = await c.env.MY_BUCKET.list({
+        prefix: "images/",
+        delimiter: "/",
+      })
       const images = listResult.objects.map((obj) => ({
         name: obj.key,
         size: obj.size,
         lastModified: obj.uploaded,
       }))
       return c.json(images)
+    } else if (kind === "pdf") {
+      const listResult = await c.env.MY_BUCKET.list()
+
+      const pdfs = listResult.objects
+        .filter((obj) => obj.key.toLowerCase().endsWith(".pdf"))
+        .map((obj) => ({
+          name: obj.key,
+          size: obj.size,
+          lastModified: obj.uploaded,
+        }))
+
+      return c.json(pdfs)
     } else {
-      console.log("invalid kind: " + kind)
-      return c.json({ empty: true })
+      return c.json({ msg: "invalid kind" })
     }
   } catch (error) {
     console.error("Error fetching images:", error)
