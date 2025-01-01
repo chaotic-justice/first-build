@@ -84,9 +84,8 @@
             throw new Error(`HTTP error! status: ${response.status}`)
           }
           const res = await response.json()
-          const images = res.objects
-          console.log("images: ", images)
-          displayImages(images)
+          console.log("images: ", res)
+          displayImages(res)
         } catch (error) {
           console.error("Fetch error:", error)
         }
@@ -98,6 +97,7 @@
         images.forEach((image) => {
           const img = document.createElement("img")
           img.src = `https://assets.rollinggates.work/${image.name}`
+          // img.src = `https://assets-dev.rollinggates.work/${image.name}`
           img.alt = image.name
           img.style.width = "200px"
           img.style.margin = "10px"
