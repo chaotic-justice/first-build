@@ -11,6 +11,10 @@ directory = "public"
 [vars]
 JWT_SECRET = "cape-quail-23109W%#@#"
 
+[env.staging]
+JWT_SECRET = "cape-quail-2093W@#"
+haunted = false
+
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

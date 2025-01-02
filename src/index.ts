@@ -44,7 +44,7 @@ app.get("/", (c) => {
 
 app.get("/pear", (c) => {
   return c.json({
-    fishing: false,
+    fishing: true,
   })
 })
 
