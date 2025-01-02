@@ -18,7 +18,7 @@ export const customLogger = (message: string, ...rest: string[]) => {
 }
 
 app.use(logger(customLogger))
-app.use("/api/*", cors())
+app.use("*", cors())
 app.use(
   "/api/*",
   cors({
@@ -48,10 +48,25 @@ app.get("/pear", (c) => {
   })
 })
 
+app.get("/api/fetch-one-from-r2", async (c) => {
+  const { objectKey } = c.req.query()
+  if (!objectKey) {
+    return c.json({ message: "query param `objectKey` is required" }, 400)
+  }
+
+  const objectWanted = await c.env.MY_BUCKET.get(objectKey)
+  console.log("objectWanted", objectWanted)
+  if (!objectWanted) {
+    return c.json({ found: false })
+  }
+
+  return c.json(objectWanted)
+})
+
 app.get("/api/fetch-from-r2", async (c) => {
   const { kind } = c.req.query()
   if (!kind) {
-    return c.text("empty list")
+    return c.json({ message: "query param `kind` is required" }, 400)
   }
 
   try {
@@ -96,7 +111,7 @@ app.post("/api/v1/upload", async (c) => {
     const fullName = file.name
     const nameWithoutExt = fullName.substring(0, fullName.lastIndexOf(".")) || fullName
     const ext = fullName.split(".").pop()
-    const path = `images/${nameWithoutExt}_${uniqKey}.${ext}`
+    const path = `images/museum/${nameWithoutExt}_${uniqKey}.${ext}`
     const res = await c.env.MY_BUCKET.put(path, fileBuffer)
     return c.json({
       ...res,
