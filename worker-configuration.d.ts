@@ -2,5 +2,6 @@
 
 interface Env {
 	JWT_SECRET: "cape-quail-23109W%#@#";
+	ASSETS_SUBDOMAIN: "https://assets.rollinggates.work";
 	MY_BUCKET: R2Bucket;
 }

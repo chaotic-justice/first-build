@@ -7,6 +7,7 @@ import { cors } from "hono/cors"
 
 type Bindings = {
   MY_BUCKET: R2Bucket
+  ASSETS_SUBDOMAIN: string
   USERNAME: string
   PASSWORD: string
 }
@@ -22,7 +23,7 @@ app.use("*", cors())
 app.use(
   "/api/*",
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3002"],
+    origin: ["http://localhost:3000", "http://localhost:3002", "http://localhost:8787"],
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
@@ -55,9 +56,9 @@ app.get("/api/fetch-one-from-r2", async (c) => {
   }
 
   const objectWanted = await c.env.MY_BUCKET.get(objectKey)
-  console.log("objectWanted", objectWanted)
+  console.log("objectWanted", c.env.ASSETS_SUBDOMAIN)
   if (!objectWanted) {
-    return c.json({ found: false })
+    return c.json({ found: c.env.ASSETS_SUBDOMAIN })
   }
 
   return c.json(objectWanted)

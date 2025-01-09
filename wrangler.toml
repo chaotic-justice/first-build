@@ -10,6 +10,7 @@ directory = "public"
 
 [vars]
 JWT_SECRET = "cape-quail-23109W%#@#"
+ASSETS_SUBDOMAIN = "https://assets.rollinggates.work"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
