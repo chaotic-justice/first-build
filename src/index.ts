@@ -2,7 +2,6 @@ import { Hono } from "hono"
 import { bearerAuth } from "hono/bearer-auth"
 import { logger } from "hono/logger"
 import { nanoid } from "nanoid"
-import { ASSETS_SUBDOMAIN, TOKEN } from "./config"
 import { cors } from "hono/cors"
 
 type Bindings = {
@@ -56,12 +55,11 @@ app.get("/api/fetch-one-from-r2", async (c) => {
   }
 
   const objectWanted = await c.env.MY_BUCKET.get(objectKey)
-  console.log("objectWanted", c.env.ASSETS_SUBDOMAIN)
   if (!objectWanted) {
-    return c.json({ found: c.env.ASSETS_SUBDOMAIN })
+    return c.json({ url: undefined })
   }
 
-  return c.json(objectWanted)
+  return c.json({ url: `${c.env.ASSETS_SUBDOMAIN}/${objectWanted.key}` })
 })
 
 app.get("/api/fetch-from-r2", async (c) => {
